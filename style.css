@@ -53,18 +53,37 @@ body{
 }
 #calendar-main table{
     margin: auto;
+    
 }
+
+#cal{
+    width: 700px;
+    height: 600px;
+}
+
+#cal thead{
+    background-color: gray;
+
+}
+
+#cal thead tr td{
+    width: 100px;
+}
+
+
 #calendar-main table tr td{
     border: 1px black solid;
 }
 
 #calendar-button{
-    
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 #pre{
     width: 30px;
     height: 30px;
     display: inline-block;
+    margin-right: 20px;
 }
 
 #next{
@@ -88,7 +107,7 @@ body{
     background-color: #5d95eb;
 }
 
-.content-right #table{
+#table table{
     margin: auto;
 }
 
