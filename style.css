@@ -1,0 +1,98 @@
+body{
+    margin-top: 50px;
+}
+
+.main{
+    text-align: center;
+    margin: 0 200px;
+}
+
+.content{
+    display: flex;
+}
+
+.content-left{
+    flex-grow: 1;
+    display: block;
+    background-color: #e4bc73f1;
+}
+
+.period{
+    display: flex;
+    
+}
+
+#period-title{
+    flex-grow: 1;
+    border: black 1px solid;
+    text-align: right;
+    background-color: gray;
+}
+
+#special{
+    color: red;
+}
+
+#period-main{
+    flex-grow: 2;
+}
+
+#period-button{
+    flex-grow: 1;
+    
+}
+
+
+
+.calendar{
+
+}
+
+#calendar-title{
+
+}
+#calendar-main table{
+    margin: auto;
+}
+#calendar-main table tr td{
+    border: 1px black solid;
+}
+
+#calendar-button{
+    
+}
+#pre{
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+}
+
+#next{
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+}
+.select{
+
+}
+
+#select-date span{
+    margin: 30px;
+}
+
+#select-import{
+    text-align: right;
+}
+.content-right{
+    flex-grow: 1;
+    background-color: #5d95eb;
+}
+
+.content-right #table{
+    margin: auto;
+}
+
+#table tr td{
+    border: 1px black solid;
+    text-align: center;
+}

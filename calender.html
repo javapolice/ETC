@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Calendar</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="main">
+	<div class="content">
+		<div class="content-left">
+            <div class="period">
+                <div id="period-title">
+                    <p><span id="special">&#42;</span> 기간</p>
+                </div>
+                <div id="period-main">
+                    <input type="text" id="date1"> ~ <input type="text" id="date2">
+                </div>
+                <div id="period-button">
+                    <input type="button" id="button1" value="조회">
+                </div>
+            </div>
+            <div class="calendar">
+                <div id="calendar-title">
+                    <h3>2020년 May</h3>
+                </div>
+                <div id="calendar-main">
+                    <table>
+                       <thead>
+                           <tr>
+                               <td>Sun</td>
+                               <td>Mon</td>
+                               <td>Tue</td>
+                               <td>Wed</td>
+                               <td>Thu</td>
+                               <td>Fri</td>
+                               <td>Sat</td>    
+                           </tr>
+                       </thead> 
+                       <tbody>
+
+                       </tbody> 
+                    </table>
+                </div>
+                <div id="calendar-button"> 
+                    <img src="img/img1.png" id="pre">
+                    <img src="img/img2.png" id="next">
+                </div>
+            </div>
+            <div class="select">
+                <div id="select-date">
+                    <span>선택된 일자</span>
+                    <span>(요일)</span>
+                    <span>년</span>
+                    <span>월</span>
+                    <span>일</span>
+               </div>
+                <div id="select-import">
+                    <input type="button" id="button2" value="적용">
+                </div>
+            </div>
+        </div>
+        <div class="content-right">
+            <div id="table" class="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>일자</td>
+                            <td>요일</td>
+                            <td>국경일</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+	</div>
+</div>
+</body>
+</html>
