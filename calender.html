@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="utf-8">
 <title>Calendar</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -37,21 +37,24 @@
                            </tr>
                        </thead> 
                        <tbody id="cal_tbody">
-                           
                        </tbody> 
                     </table>
                 </div>
                 <div id="calendar-button"> 
-                    <img src="images/img1.png" id="pre">
-                    <img src="images/img2.png" id="next">
+                    <img src="image/img1.png" id="pre">
+                    <img src="image/img2.png" id="next">
                 </div>
             </div>
             <div class="select">
                 <div id="select-date">
                     <span>선택된 일자</span>
+                    <span id="select_day"></span>
                     <span>(요일)</span>
+                    <span id="select_year"></span>
                     <span>년</span>
+                    <span id="select_month"></span>
                     <span>월</span>
+                    <span id="select_date"></span>
                     <span>일</span>
                </div>
                 <div id="select-import">
@@ -69,7 +72,7 @@
                             <td>국경일</td>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="table_tbody">
                        
                     </tbody>
                 </table>
