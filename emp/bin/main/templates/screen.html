@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>screen</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(function(){
+	$.ajax({
+		url:"emp.do",
+		dataType:"json",
+		type:"get",
+		success:function(data){
+				for(var i=0;i<data.length; i++){
+					var a = data[i].emp_NAME + "-" + data[i].emp_POSITION;
+					$("#"+i).append(a);
+				}
+		}
+	});
+});
+</script>
+</head>
+<body>
+	<div class="wrap">
+		<ul>
+			<li id="0">
+				<ul>
+					<li id="1">
+						<ul>
+							<li id="2"></li>
+							<li id="3"></li>
+							<li id="4"></li>
+							<li id="5"></li>
+						</ul>
+					</li>
+					<li id="6">
+						<ul>
+							<li id="7"></li>
+						</ul>
+					</li>
+					<li id="8">
+						<ul>
+							<li id="9"></li>
+							<li id="10"></li>
+							<li id="11"></li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>
