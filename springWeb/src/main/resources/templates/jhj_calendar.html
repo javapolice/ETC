@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        div#calAndTable {
+            display: flex;
+            margin: 0 auto;
+        }
+
+        div#calWrapper {
+            width: 600px;
+            height: 700px;
+            border: 1px solid black;
+            margin: 0 auto;
+        }
+
+        div#upper_menu {
+            width: 100%;
+            height: 50px;
+            border-bottom: 1px solid black;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        div#period {
+            border: 1px solid black;
+            width: 100px;
+            height: 25px;
+            text-align: right;
+            background-color: rgb(223, 219, 219);
+            margin-top: 12.5px;
+        }
+
+        input[type="date"] {
+            width: 125px;
+            height: 25px;
+            margin-top: 12.5px;
+        }
+
+        div#betweenDate {
+            margin-top: 12.5px;
+        }
+
+        button#searchButton {
+            width: 70px;
+            height: 25px;
+            font-size: 1.1rem;
+            margin-top: 12.5px;
+        }
+
+        div#dateTitle {
+            font-size: 1.5rem;
+            font-weight: 550;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        div#betweenDate {
+            margin-left: -20px;
+            margin-right: -20px;
+        }
+
+        div#calendar {
+            width: 90%;
+            height: 350px;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+
+        div#pnButtonWrapper {
+            width: 500px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        div#pnButtonWrapper button {
+            width: 70px;
+            height: 30px;
+        }
+
+        div#selectedDateWrapper {
+            text-align: center;
+        }
+
+        div#submitButtonWrapper {
+            display: flex;
+            flex-direction: row-reverse;
+        }
+
+        button#submit {
+            width: 80px;
+            height: 40px;
+            font-size: 1.3rem;
+            font-weight: 550;
+            margin-right: 50px;
+            margin-top: 20px;
+        }
+
+        td {
+            width: calc(100% / 7);
+            font-weight: 550;
+            height: 45px;
+            cursor: pointer;
+        }
+
+        td.sun {
+            color: red;
+        }
+
+        td.sat {
+            color: blue;
+        }
+
+        table {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+
+        tr:first-child {
+            height: 45px;
+            background-color: rgb(212, 200, 182);
+        }
+
+        div#tableWrapper {
+            margin: 0 auto;
+            width: 400px;
+            height: 700px;
+            overflow: auto;
+        }
+
+        div.table {
+            display: flex;
+        }
+
+        div.table div {
+            width: calc(100% / 3);
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-bottom: 3px solid white;
+        }
+
+        div.table div:nth-child(2) {
+            border-left: 3px solid white;
+            border-right: 3px solid white;
+        }
+
+        div.table:nth-child(2n) div {
+            background-color: rgb(159, 206, 206);
+        }
+
+        div.table:nth-child(2n+1) div {
+            background-color: rgb(228, 240, 240);
+        }
+
+        div.table:first-child div {
+            background-color: rgb(66, 139, 168);
+            color: white;
+            font-weight: 550;
+        }
+
+        div.table:first-child div {
+            height: 50px;
+            line-height: 50px;
+            font-size: 1.1rem;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        img {
+            width: 40px;
+            height: 40px;
+        }
+
+        div#iconWrapper {
+            width: 200px;
+            margin: 0 auto;
+            margin-bottom: 20px;
+        }
+
+        button#pre {
+            width: 0;
+            height: 0;
+            border-top: 25px solid transparent;
+            border-right: 40px solid rgb(46, 87, 163);
+            border-bottom: 25px solid transparent;
+            cursor: pointer;
+            background-color: transparent;
+        }
+
+        button#next {
+            margin-left: 20px;
+            width: 0;
+            height: 0;
+            border-top: 25px solid transparent;
+            border-left: 40px solid rgb(46, 87, 163);
+            border-bottom: 25px solid transparent;
+            cursor: pointer;
+            background-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+<h1>WorkDay 1 : Calendar by HJ-Rich
+    <a target="_blank" href="https://github.com/HJ-Rich"><img
+            src="https://www.flaticon.com/svg/static/icons/svg/25/25231.svg"></a>
+    <a target="_blank" href="https://creampuffy.tistory.com"><img
+            src="https://t1.daumcdn.net/cfile/tistory/99A631395C3448420F"></a>
+    <a target="_blank" href="mailto:ztzy1907@gmail.com"><img
+            src="data:image/png;base64,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"></a>
+</h1>
+
+<div id="iconWrapper">
+
+</div>
+<div id="calAndTable">
+    <!-- 캘린더 전체 Wrapper -->
+    <div id="calWrapper">
+
+        <!-- 상단 날짜 조회 메뉴 -->
+        <div id="upper_menu">
+            <div id="period"><span style="color:red">*</span> 기간</div>
+            <input type="date" id="firstDate">
+            <div id="betweenDate">~</div>
+            <input type="date" id="secondDate">
+            <button id="searchButton">조회</button>
+        </div>
+
+        <!-- 달력 상단 년, 월 -->
+        <div id="dateTitle">현재 선택된 날짜가 표기되는 곳</div>
+
+        <!-- 달력 -->
+        <div id="calendar">
+            <table border="1">
+                <tr>
+                    <td class="sun">Sun</td>
+                    <td>Mon</td>
+                    <td>Tue</td>
+                    <td>Wed</td>
+                    <td>Thu</td>
+                    <td>Fri</td>
+                    <td class="sat">Sat</td>
+                </tr>
+                <tr>
+                    <td class="sun"></td>
+                    <td class="mon"></td>
+                    <td class="tue"></td>
+                    <td class="wed"></td>
+                    <td class="thu"></td>
+                    <td class="fri"></td>
+                    <td class="sat"></td>
+                </tr>
+                <tr>
+                    <td class="sun"></td>
+                    <td class="mon"></td>
+                    <td class="tue"></td>
+                    <td class="wed"></td>
+                    <td class="thu"></td>
+                    <td class="fri"></td>
+                    <td class="sat"></td>
+                </tr>
+                <tr>
+                    <td class="sun"></td>
+                    <td class="mon"></td>
+                    <td class="tue"></td>
+                    <td class="wed"></td>
+                    <td class="thu"></td>
+                    <td class="fri"></td>
+                    <td class="sat"></td>
+                </tr>
+                <tr>
+                    <td class="sun"></td>
+                    <td class="mon"></td>
+                    <td class="tue"></td>
+                    <td class="wed"></td>
+                    <td class="thu"></td>
+                    <td class="fri"></td>
+                    <td class="sat"></td>
+                </tr>
+                <tr>
+                    <td class="sun"></td>
+                    <td class="mon"></td>
+                    <td class="tue"></td>
+                    <td class="wed"></td>
+                    <td class="thu"></td>
+                    <td class="fri"></td>
+                    <td class="sat"></td>
+                </tr>
+                <tr>
+                    <td class="sun"></td>
+                    <td class="mon"></td>
+                    <td class="tue"></td>
+                    <td class="wed"></td>
+                    <td class="thu"></td>
+                    <td class="fri"></td>
+                    <td class="sat"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 달력 하단 이전, 다음 버튼 -->
+        <div id="pnButtonWrapper">
+            <button id="pre">pre</button>
+            <button id="next">next</button>
+        </div>
+
+        <!-- 선택된 날짜를 표기하는 부분 -->
+        <div id="selectedDateWrapper">
+            <div>선택된 일자&emsp;&emsp;<span id="dayspan"></span>(요일)&emsp;&emsp;&emsp;<span id="yearspan"></span>년&emsp;&emsp;&emsp;<span
+                    id="monthspan"></span>월&emsp;&emsp;&emsp;<span id="datespan"></span>일
+            </div>
+            <div>선택된 일자&emsp;&emsp;<span id="dayspan2"></span>(요일)&emsp;&emsp;&emsp;<span id="yearspan2"></span>년&emsp;&emsp;&emsp;<span
+                    id="monthspan2"></span>월&emsp;&emsp;&emsp;<span id="datespan2"></span>일
+            </div>
+        </div>
+
+        <!-- 적용 버튼 -->
+        <div id="submitButtonWrapper">
+            <button id="submit">적용</button>
+        </div>
+
+    </div>
+
+    <div id="tableWrapper">
+        <div class="table" id="tableHeader">
+            <div>일자</div>
+            <div>요일</div>
+            <div>국경일</div>
+        </div>
+    </div>
+</div>
+<script>
+    /*
+        국경일에 관한 법률
+        제1조(국경일의 지정) 국가의 경사로운 날을 기념하기 위하여 국경일(國慶日)을 정한다.
+
+        제2조(국경일의 종류) 국경일은 다음 각 호와 같다.
+        1. 3·1절: 3월 1일
+        2. 제헌절: 7월 17일
+        3. 광복절: 8월 15일
+        4. 개천절: 10월 3일
+        5. 한글날: 10월 9일
+    */
+
+    let holidays = ['03-01', '07-17', '08-15', '10-03', '10-09'];
+
+    function isHoliday(dateString) {
+        let result = false;
+
+        holidays.forEach(e => {
+            if (e === `${dateString.split('-')[1]}-${dateString.split('-')[2]}`) result = true;
+        });
+
+        return result;
+    }
+
+    // 날짜 두개 잡는 거 짜봅시당.
+    let selDate1 = undefined;
+    let selDate2 = undefined;
+
+</script>
+
+<script>
+    //페이지 로드 시 현재 날짜로 달력 제목 세팅해주는 이벤트입니다.
+    document.addEventListener('DOMContentLoaded', () => {
+        let a = new Date();
+        let year = a.getFullYear();
+        let month = getMonthInEng(a.getMonth() + 1);
+        document.getElementById('dateTitle').innerText = `${year}년 ${month}`;
+        document.getElementById('dateTitle').dataset.date = a;
+
+        dateSelectEffect();
+
+        preNextEvent();
+
+        document.getElementById('submit').addEventListener('click', () => {
+            if (document.getElementById('yearspan').innerText === "") {
+                alert('날짜를 선택해주세요');
+                return;
+            }
+
+            let year = document.getElementById('yearspan').innerText;
+            let month = document.getElementById('monthspan').innerText;
+            let date = document.getElementById('datespan').innerText;
+            let day = document.getElementById('dayspan').innerText;
+            let year2 = document.getElementById('yearspan2').innerText;
+            let month2 = document.getElementById('monthspan2').innerText;
+            let date2 = document.getElementById('datespan2').innerText;
+            let day2 = document.getElementById('dayspan2').innerText;
+
+            // 테이블 초기화
+            document.querySelectorAll('div.table').forEach((e, i) => {
+                if (i > 0) e.remove();
+            });
+
+            // 테이블 작성
+            let start = new Date(year, month - 1, date);
+            let end = new Date(year2, month2 - 1, date2);
+
+            for (let i = start.getTime(); i <= end.getTime(); i += 86400 * 1000) {
+                let d = new Date(i);
+
+                let month = d.getMonth() + 1;
+                if (month < 10) month = "0" + month;
+                let date = d.getDate();
+                if (date < 10) date = "0" + date;
+
+                document.getElementById('tableWrapper').innerHTML +=
+                    `<div class="table">` +
+                    `<div class="tableDate">${d.getFullYear()}-${month}-${date}</div>` +
+                    `<div class="day">${getDayInKorFromIndex(d.getDay())}</div>` +
+                    `<div class="isHoliday">아니오</div>` +
+                    `</div>`;
+            }
+
+
+            //토요일 일요일 국경일 컬러처리
+            document.querySelectorAll('div.day').forEach(e => {
+                if (e.innerText === "토") e.parentElement.style.color = "blue";
+                if (e.innerText === "일") e.parentElement.style.color = "red";
+            });
+
+            //국경일 처리
+            document.querySelectorAll('div.tableDate').forEach(e => {
+                if (isHoliday(e.innerText)) {
+                    e.parentElement.lastChild.innerText = "예";
+                    e.parentElement.style.color = "red";
+                    e.parentElement.style.fontWeight = "550";
+                }
+            });
+            selDate1 = undefined;
+            selDate2 = undefined;
+        });
+    });
+
+    //조회 버튼에 클릭 이벤트 적용.
+    //두 개의 날짜를 선택 한 다음 조회를 눌렀을 때 달력에 날짜가 조회되어야 함.
+    document.getElementById('searchButton').addEventListener('click', () => {
+
+        let firstDate = document.getElementById('firstDate');
+        let secondDate = document.getElementById('secondDate');
+
+        //1. null 검증
+        if (firstDate.value === "") {
+            alert('탐색 시작 날짜를 선택해주세요');
+            firstDate.focus();
+            return;
+        }
+        if (secondDate.value === "") {
+            alert('탐색 마지막 날짜를 선택해주세요');
+            secondDate.focus();
+            return;
+        }
+
+        //2. firstDate < secondDate 검증
+        if (firstDate.value > secondDate.value) {
+            alert('탐색 마지막 날짜를 시작 날짜 이후로 선택해주세요');
+            secondDate.value = "";
+            secondDate.focus();
+            return;
+        }
+
+        //2-1. 기존 달력 내용을 제거합니다.
+        clearCalendar();
+
+        //3. 날짜 표시 및 날짜별 클릭 이벤트 적용
+        let dateTitle = document.getElementById('dateTitle');
+        let date1 = firstDate.value;
+        let date2 = secondDate.value;
+
+        let newTitle = `${date1.split('-')[0]}년 `;
+        newTitle += getMonthInEng(parseInt(date1.split('-')[1]));
+        dateTitle.innerText = newTitle; // 여기까지 달력 제목 출력 완료.
+        dateTitle.dataset.date = date1;
+
+        // 시작 날짜의 연, 월, 일, 요일
+        let fy = new Date(Date.parse(document.getElementById('firstDate').value)).getFullYear();
+        let fm = new Date(Date.parse(document.getElementById('firstDate').value)).getMonth();
+        let fd = new Date(Date.parse(document.getElementById('firstDate').value)).getDate();
+        let fday = new Date(Date.parse(document.getElementById('firstDate').value)).getDay();
+
+        // 종료 날짜의 연, 월, 일, 요일
+        let sy = new Date(Date.parse(document.getElementById('secondDate').value)).getFullYear();
+        let sm = new Date(Date.parse(document.getElementById('secondDate').value)).getMonth();
+        let sd = new Date(Date.parse(document.getElementById('secondDate').value)).getDate();
+        let sday = new Date(Date.parse(document.getElementById('secondDate').value)).getDay();
+
+        let start = new Date(fy, fm, fd);
+        let end = new Date(sy, sm, sd);
+
+        // 시작 날짜의 첫번째 요일 설정
+        let firstDayOfThisMonth = new Date(fy, fm, 1).getDay();
+        let lastDate = getLastDateOfMonth(fy, fm + 1);
+
+        let tds = new Array();
+        let td = document.querySelectorAll('td');
+
+        for (let i = 0; i < lastDate; i++) {
+            tds.push(td[7 + firstDayOfThisMonth + i]);
+        }
+
+        // 해당 월의 전체 날짜를 출력합니다.
+        tds.forEach((e, i) => {
+            e.innerText = i + 1;
+            e.dataset.date = new Date(fy, fm, i + 1);
+        });
+
+        // 범위에서 벗어난 날짜를 제거합니다.
+        document.querySelectorAll('td').forEach(e => {
+            if (new Date(e.dataset.date) < new Date(fy, fm, fd)) e.innerText = "";
+            if (new Date(e.dataset.date) > new Date(sy, sm, sd)) e.innerText = "";
+        });
+
+        // 날짜 클릭 시 하단 텍스트에 표시되도록 이벤트 연결합니다.
+        tds.forEach(e => e.addEventListener('click', () => {
+            if (e.innerText !== "") {
+                // 첫 날짜 선택일 경우
+                if (selDate1 === undefined) {
+                    let date = document.getElementById('dateTitle').dataset.date.split('-');
+                    document.getElementById('yearspan').innerText = date[0];
+                    document.getElementById('monthspan').innerText = date[1];
+                    document.getElementById('datespan').innerText = document.getElementById('dateTitle').dataset.datedate;
+                    document.getElementById('dayspan').innerText = getDayInKorFromEng(e.className);
+                    selDate1 = new Date(date[0], parseInt(date[1]) - 1, document.getElementById('dateTitle').dataset.datedate);
+
+                    // 두번째 날짜 선택일 경우
+                } else {
+                    //첫번째 날짜가 더 이전 날짜인 경우 (정상 순서);
+                    selDate2 = e.dataset.date;
+                    if (new Date(selDate2) > new Date(selDate1)) {
+                        document.getElementById('yearspan2').innerText = new Date(selDate2).getFullYear();
+                        document.getElementById('monthspan2').innerText = new Date(selDate2).getMonth() + 1;
+                        document.getElementById('datespan2').innerText = new Date(selDate2).getDate();
+                        document.getElementById('dayspan2').innerText = getDayInKorFromEng(e.className);
+                    }
+                    //두번쨰 날짜가 더 이전 날짜인 경우 (역순);
+                    else {
+                        console.log('역순');
+                        // selDate1 과 selDate2 값 교환
+                        let temp = selDate2;
+                        selDate2 = new Date(selDate1);
+                        selDate1 = new Date(temp);
+
+                        // 1에 selDate1 집어넣기
+                        document.getElementById('yearspan').innerText = new Date(selDate1).getFullYear();
+                        document.getElementById('monthspan').innerText = new Date(selDate1).getMonth() + 1;
+                        document.getElementById('datespan').innerText = new Date(selDate1).getDate();
+                        document.getElementById('dayspan').innerText = getDayInKorFromEng(e.className);
+
+                        // 2에 selDate2 집어넣기
+                        document.getElementById('yearspan2').innerText = new Date(selDate2).getFullYear();
+                        document.getElementById('monthspan2').innerText = new Date(selDate2).getMonth() + 1;
+                        document.getElementById('datespan2').innerText = new Date(selDate2).getDate();
+                        document.getElementById('dayspan2').innerText = getDayInKorFromEng(e.className);
+                    }
+
+                }
+
+            }
+        }));
+        selDate1 = undefined;
+        selDate2 = undefined;
+
+        document.getElementById('yearspan').innerText = "";
+        document.getElementById('monthspan').innerText = "";
+        document.getElementById('datespan').innerText = "";
+        document.getElementById('dayspan').innerText = "";
+        document.getElementById('yearspan2').innerText = "";
+        document.getElementById('monthspan2').innerText = "";
+        document.getElementById('datespan2').innerText = "";
+        document.getElementById('dayspan2').innerText = "";
+    });
+
+
+</script>
+
+
+<script>
+    //4. 이전, 다음 버튼 클릭 이벤트 적용
+    function preNextEvent() {
+
+
+        // 다음 버튼 먼저
+        document.getElementById('next').addEventListener('click', () => {
+            // null 검증
+            if (document.getElementById('firstDate').value === "" || document.getElementById('secondDate').value === "") {
+                alert('날짜를 먼저 선택해주세요');
+                return;
+            }
+
+            let maxMonth = new Date(document.getElementById('secondDate').value);
+            let thisMonth = new Date(document.getElementById('dateTitle').dataset.date);
+
+            if (maxMonth > thisMonth && maxMonth.getMonth() !== thisMonth.getMonth()) {
+                // 다음달 표시 구현해야함
+
+                // 1. 달력 다 지우기
+                clearCalendar();
+
+                // 2. 달력 제목, 제목 date dataset 변경
+                let year = document.getElementById('dateTitle').innerText.split('년 ')[0];
+                let month = document.getElementById('dateTitle').innerText.split('년 ')[1];
+                let next = getNextYearMonth(year, month);
+                document.getElementById('dateTitle').innerText = `${next.year}년 ${next.month}`;
+                document.getElementById('dateTitle').dataset.date = `${next.year}-${next.monthNumber}-01`;
+
+                // 3. 달력 다 그리기
+                // 해당 월의 전체 날짜를 출력합니다.
+                let targetMonth = new Date(document.getElementById('dateTitle').dataset.date);
+                let lastDate = getLastDateOfMonth(targetMonth.getFullYear(), targetMonth.getMonth() + 1);
+                let day = targetMonth.getDay();
+                let arr = new Array();
+                document.querySelectorAll('td').forEach((e, i) => {
+                    if (i > 6 + day && i <= 6 + day + lastDate) {
+                        e.innerText = i - 6 - day;
+                        e.dataset.date = new Date(next.year, next.monthNumber - 1, e.innerText);
+                    }
+                });
+
+                // 4. 범위 바깥 날짜 지우기
+                document.querySelectorAll('td').forEach(e => {
+                    let maxdate = new Date(document.getElementById('secondDate').value);
+                    if (new Date(e.dataset.date) > maxdate) {
+                        e.innerText = "";
+                        e.dataset.date = undefined;
+                    }
+                });
+
+            } else {
+            }
+            clearSelectedDate();
+        });
+
+        // 이전 버튼 ㄱㄱ
+        document.getElementById('pre').addEventListener('click', () => {
+            // null 검증
+            if (document.getElementById('firstDate').value === "" || document.getElementById('secondDate').value === "") {
+                alert('날짜를 먼저 선택해주세요');
+                return;
+            }
+            let minMonth = new Date(document.getElementById('firstDate').value);
+            let thisMonth = new Date(document.getElementById('dateTitle').dataset.date);
+
+            if (minMonth < thisMonth) {
+                //이전달 표시 구현해야함
+
+                // 1. 달력 다 지우기
+                clearCalendar();
+
+                // 2. 달력 제목, 제목 date dataset 변경
+                let year = document.getElementById('dateTitle').innerText.split('년 ')[0];
+                let month = document.getElementById('dateTitle').innerText.split('년 ')[1];
+                let pre = getPreYearMonth(year, month);
+                document.getElementById('dateTitle').innerText = `${pre.year}년 ${pre.month}`;
+                document.getElementById('dateTitle').dataset.date = `${pre.year}-${pre.monthNumber}-01`;
+
+                // 3. 달력 다 그리기
+                let targetMonth = new Date(document.getElementById('dateTitle').dataset.date);
+                let lastDate = getLastDateOfMonth(targetMonth.getFullYear(), targetMonth.getMonth() + 1);
+                let day = targetMonth.getDay();
+                let arr = new Array();
+                document.querySelectorAll('td').forEach((e, i) => {
+                    if (i > 6 + day && i <= 6 + day + lastDate) {
+                        e.innerText = i - 6 - day;
+                        e.dataset.date = new Date(pre.year, pre.monthNumber - 1, e.innerText);
+                    }
+                });
+
+                // 4. 범위 바깥 날짜 지우기
+                document.querySelectorAll('td').forEach(e => {
+                    let mindate = new Date(document.getElementById('firstDate').value);
+                    mindate.setHours(0, 0, 0, 0);
+                    if (new Date(e.dataset.date) < mindate) {
+                        e.innerText = "";
+                        e.dataset.date = undefined;
+                    }
+                    if (new Date(e.dataset.date).getDate() === mindate.getDate()) {
+                        e.innerText = mindate.getDate();
+                        e.dataset.date = new Date(pre.year, pre.monthNumber - 1, e.innerText);
+                    }
+                });
+
+            } else {
+            }
+
+            clearSelectedDate();
+
+        });
+
+    }
+
+    // 이전, 다음 눌렀을 때 선택 값을 없애는 함수입니다.
+    function clearSelectedDate() {
+        document.querySelectorAll('td').forEach((e, i) => {
+            if (i > 6) e.style.backgroundColor = "transparent";
+        });
+    }
+
+
+    // 달력 초기화 함수입니다.
+    function clearCalendar() {
+        document.querySelectorAll('td').forEach((e, i) => {
+            if (i > 6) e.innerText = "";
+        });
+    }
+
+
+    // 날짜를 클릭했을 때 배경색을 넣어주는 이벤트 함수입니다.
+    function dateSelectEffect() {
+        document.querySelectorAll('td').forEach((e, i) => e.addEventListener('click', () => {
+            if (i < 7) return;
+            if (e.innerText !== "") {
+                document.querySelectorAll('td').forEach((e, i) => {
+                    if (i > 6) e.style.backgroundColor = "transparent";
+                });
+                e.style.backgroundColor = "rgb(128, 193, 219)";
+                document.getElementById('dateTitle').dataset.datedate = e.innerText;
+            }
+        }));
+    }
+
+    // 영어 3자로 된 요일을 받아서 한글 한 글자 요일로 반환하는 함수입니다.
+    function getDayInKorFromEng(day) {
+        let result = '';
+        switch (day) {
+            case 'mon':
+                result = "월";
+                break;
+            case 'tue':
+                result = "화";
+                break;
+            case 'wed':
+                result = "수";
+                break;
+            case 'thu':
+                result = "목";
+                break;
+            case 'fri':
+                result = "금";
+                break;
+            case 'sat':
+                result = "토";
+                break;
+            case 'sun':
+                result = "일";
+                break;
+        }
+        return result;
+    }
+
+    // 숫자로 월을 받아서 마지막 날짜를 리턴해주는 함수입니다.
+    function getLastDateOfMonth(year, month) {
+        let lastDateArray = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        let lastDate = lastDateArray[month - 1];
+        //윤년 처리
+        if (year % 4 === 0 && month === 2) lastDate = 29;
+        return lastDate;
+    }
+
+    // 숫자로 월을 받아서 3자리 약자로 리턴해주는 함수입니다.
+    function getMonthInEng(month_as_number) {
+        let mon = '';
+        switch (month_as_number) {
+            case 01:
+                mon = 'Jan';
+                break;
+            case 02:
+                mon = 'Feb';
+                break;
+            case 03:
+                mon = 'Mar';
+                break;
+            case 04:
+                mon = 'Apr';
+                break;
+            case 05:
+                mon = 'May';
+                break;
+            case 06:
+                mon = 'Jun';
+                break;
+            case 07:
+                mon = 'Jul';
+                break;
+            case 0
+                8
+            :
+                mon = 'Aug';
+                break;
+            case 0
+                9
+            :
+                mon = 'Sep';
+                break;
+            case 10:
+                mon = 'Oct';
+                break;
+            case 11:
+                mon = 'Nov';
+                break;
+            case 12:
+                mon = 'Dec';
+                break;
+        }
+        return mon;
+    }
+
+    function getDayInKorFromIndex(i) {
+        let days = ['일', '월', '화', '수', '목', '금', '토'];
+        return days[i];
+    }
+
+
+    // 연도와 월을 전달해서 다음 월과 연도를 반환하는 함수입니다
+    function getNextYearMonth(year, month) {
+        let result = new Object();
+        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        months.forEach((e, i) => {
+            if (e === month) {
+                if (i === 11) {
+                    result.month = months[0];
+                    result.monthNumber = 1;
+                    result.year = parseInt(year) + 1;
+                } else {
+                    result.month = months[i + 1];
+                    result.monthNumber = i + 2;
+                    result.year = year;
+                }
+            }
+        });
+        if (result.monthNumber < 10) {
+            result.monthNumber = "0" + result.monthNumber;
+        }
+        return result;
+    }
+
+    // 연도와 월을 전달해서 이전 월과 연도를 반환하는 함수입니다
+    function getPreYearMonth(year, month) {
+        let result = new Object();
+        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        months.forEach((e, i) => {
+            if (e === month) {
+                if (i === 0) {
+                    result.month = months[11];
+                    result.monthNumber = 12;
+                    result.year = year - 1;
+                } else {
+                    result.month = months[i - 1];
+                    result.monthNumber = i;
+                    result.year = parseInt(year);
+                }
+            }
+        });
+
+        if (result.monthNumber < 10) {
+            result.monthNumber = "0" + result.monthNumber;
+        }
+        return result;
+    }
+</script>
+</body>
+
+</html>
