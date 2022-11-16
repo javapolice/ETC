@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Calendar</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="main">
+	<div class="content">
+		<div class="content-left">
+            <div class="period">
+                <div id="period-title">
+                    <p><span id="special">&#42;</span> 기간</p>
+                </div>
+                <div id="period-main">
+                    <input type="date" id="date1"> ~ <input type="date" id="date2">
+                </div>
+                <div id="period-button">
+                    <input type="button" id="button1" value="조회">
+                </div>
+            </div>
+            <div class="calendar">
+                <div id="calendar-title">
+                </div>
+                <div id="calendar-main">
+                    <table id="cal">
+                       <thead>
+                           <tr>
+                               <td>Sun</td>
+                               <td>Mon</td>
+                               <td>Tue</td>
+                               <td>Wed</td>
+                               <td>Thu</td>
+                               <td>Fri</td>
+                               <td>Sat</td>    
+                           </tr>
+                       </thead> 
+                       <tbody id="cal_tbody">
+                       </tbody> 
+                    </table>
+                </div>
+                <div id="calendar-button"> 
+                    <img src="image/img1.png" id="pre">
+                    <img src="image/img2.png" id="next">
+                </div>
+            </div>
+            <div class="select">
+                <div id="select-date">
+                    <span>선택된 일자</span>
+                    <span id="select_day"></span>
+                    <span>(요일)</span>
+                    <span id="select_year"></span>
+                    <span>년</span>
+                    <span id="select_month"></span>
+                    <span>월</span>
+                    <span id="select_date"></span>
+                    <span>일</span>
+               </div>
+                <div id="select-import">
+                    <input type="button" id="button2" value="적용">
+                </div>
+            </div>
+        </div>
+        <div class="content-right">
+            <div id="table" class="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>일자</td>
+                            <td>요일</td>
+                            <td>국경일</td>
+                        </tr>
+                    </thead>
+                    <tbody id="table_tbody">
+                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+	</div>
+</div>
+<script src="js/cal.js"></script>
+</body>
+</html>
